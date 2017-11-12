@@ -1,8 +1,7 @@
 #include "userInteraction.h"
 
-char * splitArgument[](char * command, int * counter, size_t t){
-  char * arg[3], * token;
-  int c;
+char ** splitArgument(char * command, char * arg[], int * counter, size_t t){
+  char * token;
 
   for(int i = 0; i < t ; i++) {
     if(i){
@@ -15,6 +14,9 @@ char * splitArgument[](char * command, int * counter, size_t t){
       arg[i] = NULL;
       break;
     }
+
+    arg[i] = token;
+    (*counter)++;
   }
 
   return arg;
@@ -27,19 +29,20 @@ void commandLine(game * g){
   while(1){
     printf(">> ");
     fgets(command, sizeof(command), stdin);
+    argSize = 0;
 
-    if(strlen(command) < 2))
-      continue
+    if(strlen(command) < 2)
+      continue;
     else
-      command[strlen(cmd) - 1] = '\0';
+      command[strlen(command) - 1] = '\0';
 
     // SPLIT COMMAND
-    arg = splitCommand(cmd, &argSize, 3);
+    splitArgument(command, arg, &argSize, 3);
 
     // STRCMP
     if(!strcmp("add", arg[0])){
       if(argSize == 3){
-        if(newUser(arg[1], arg[2], LOGIN_FILE)){
+        if(addUser(arg[1], arg[2], LOGIN_FILE)){
           printf("User Added to file!\n");
           continue;
         }
@@ -52,42 +55,41 @@ void commandLine(game * g){
         printf("Error in Command! Input: add user pwd!\n");
         continue;
       }
+    }
 
-      if(!strcmp("users", arg[0])){
-        printf("You selected Users!\n");
-        continue;
-      }
+    if(!strcmp("users", arg[0])){
+      printf("You selected Users!\n");
+      continue;
+    }
 
-      if(!strcmp("kick", arg[0])){
-        printf("You selected Kick!\n");
-        continue;
-      }
+    if(!strcmp("kick", arg[0])){
+      printf("You selected Kick!\n");
+      continue;
+    }
 
-      if(!strcmp("game", arg[0])){
-        printf("You selected game!\n");
-        continue;
-      }
+    if(!strcmp("game", arg[0])){
+      printf("You selected game!\n");
+      continue;
+    }
 
-      if(!strcmp("shutdown", arg[0])){
-        printf("You selected shutdown!\n");
-        continue;
-      }
+    if(!strcmp("shutdown", arg[0])){
+      printf("You selected shutdown!\n");
+      return;
+    }
 
-      if(!strcmp("map", arg[0])){
-        printf("It's ME MAP!\n");
-        continue;
-      }
+    if(!strcmp("map", arg[0])){
+      printf("It's ME MAP!\n");
+      continue;
+    }
 
-      if(!strcmp("clear", arg[0])){
-        system("clear");
-        continue;
-      }
+    if(!strcmp("clear", arg[0])){
+      system("clear");
+      continue;
+    }
 
-      if(!strcmp("help", arg[0])){
-        printf("Commands to Use:\n\tadd\n\tusers\n\tkick\n\tgame\n\tshutdown\n\tmap\n");
-        continue;
-      }
-
+    if(!strcmp("help", arg[0])){
+      printf("Commands to Use:\n\tadd\n\tusers\n\tkick\n\tgame\n\tshutdown\n\tmap\n");
+      continue;
     }
 
     printf("Command not recognized\n");

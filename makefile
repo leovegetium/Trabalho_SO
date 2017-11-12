@@ -1,6 +1,6 @@
 IDIR =./inc
 CC=gcc
-CFLAGS=-I$(IDIR)
+CFLAGS=-g -I$(IDIR)
 ODIR=obj
 
 _DEPS = base.h game.h map.h server.h userInteraction.h userLogin.h
